@@ -1,4 +1,4 @@
-package java_parts.interfaces;
+package java_interfaces;
 
 import org.apache.flink.api.java.tuple.Tuple;
 import org.apache.flink.api.java.tuple.Tuple2;

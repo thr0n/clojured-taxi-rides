@@ -1,7 +1,7 @@
-(ns java-parts.impl.Clojured-GridMatcher
+(ns transformations.Clojured-GridMatcher
   (:gen-class
-    :name java_parts.ClojuredGridMatcher
-    :implements [java_parts.interfaces.I_Taxi_GridMatcher])
+    :name transformations.ClojuredGridMatcher
+    :implements [java_interfaces.I_Taxi_GridMatcher])
   (:import (com.dataartisans.flinktraining.exercises.datastream_java.utils GeoUtils)
            (org.apache.flink.api.java.tuple Tuple2)))
 

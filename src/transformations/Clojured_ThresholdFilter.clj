@@ -1,7 +1,7 @@
-(ns java-parts.impl.Clojured-ThresholdFilter
+(ns transformations.Clojured-ThresholdFilter
   (:gen-class
-    :name java_parts.ClojuredThresholdFilter
-    :implements [java_parts.interfaces.I_Taxi_ThresholdFilter
+    :name transformations.ClojuredThresholdFilter
+    :implements [java_interfaces.I_Taxi_ThresholdFilter
                  java.io.Serializable]
     :state state
     :constructors {[Integer] []}

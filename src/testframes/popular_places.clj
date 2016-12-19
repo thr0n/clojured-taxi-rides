@@ -1,7 +1,7 @@
 (ns testframes.popular-places
   (:use bridge.environment bridge.windowing)
   (:import (com.dataartisans.flinktraining.exercises.datastream_java.sources TaxiRideSource)
-           (java_parts ClojuredGridMatcher ClojuredNYCFilter ClojuredThresholdFilter ClojuredKeySelector ClojuredGrid2Coordinates ClojuredRideCounter)
+           (transformations ClojuredGridMatcher ClojuredNYCFilter ClojuredThresholdFilter ClojuredKeySelector ClojuredGrid2Coordinates ClojuredRideCounter)
            (org.apache.flink.streaming.api TimeCharacteristic)))
 
 (def taxi-source "..\\..\\resources\\datasets\\nycTaxiRides.gz")
@@ -36,5 +36,7 @@
 ; map the grid cell id back to lon / lat
 (def popular-spots (.map filtered-counts (ClojuredGrid2Coordinates.)))
 
-(.print popular-spots)
+;(.print popular-spots)
+(.writeAsText popular-spots "file:\\\\C:\\popular-spots")
+
 (.execute exec-env "popular-places")

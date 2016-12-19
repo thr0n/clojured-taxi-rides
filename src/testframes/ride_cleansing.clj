@@ -2,7 +2,7 @@
   (:use bridge.environment)
   (:import (org.apache.flink.streaming.api TimeCharacteristic)
            (com.dataartisans.flinktraining.exercises.datastream_java.sources TaxiRideSource)
-           (java_parts ClojuredNYCFilter)))
+           (transformations ClojuredNYCFilter)))
 
 (def taxi-source "..\\..\\resources\\datasets\\nycTaxiRides.gz")
 (def max-event-delay 60)        ; events are out of order by max 60 seconds

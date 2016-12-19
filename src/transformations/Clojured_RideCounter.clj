@@ -1,7 +1,7 @@
-(ns java-parts.impl.Clojured-RideCounter
+(ns transformations.Clojured-RideCounter
   (:gen-class
-    :name java_parts.ClojuredRideCounter
-    :implements [java_parts.interfaces.I_Taxi_RideCounter])
+    :name transformations.ClojuredRideCounter
+    :implements [java_interfaces.I_Taxi_RideCounter])
   (:import (org.apache.flink.api.java.tuple Tuple4)))
 
 (defn -apply [this key window values out]

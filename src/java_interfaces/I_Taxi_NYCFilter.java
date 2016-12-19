@@ -1,4 +1,4 @@
-package java_parts.interfaces;
+package java_interfaces;
 
 import com.dataartisans.flinktraining.exercises.datastream_java.datatypes.TaxiRide;
 import org.apache.flink.api.common.functions.FilterFunction;
