@@ -9,6 +9,7 @@
 (def serving-speed-factor 600)  ; events of 10 minutes are served in 1 second
 (def time-size 15)
 (def time-slide 5)
+(def pop-threshold (int 20))
 
 (def exec-env (stream-execution-environment))
 (set-time-characteristic exec-env (TimeCharacteristic/EventTime))
@@ -31,7 +32,7 @@
 (def counted-rides (.apply timed-rides (ClojuredRideCounter.)))
 
 ; filter by threshold
-(def filtered-counts (.filter counted-rides (ClojuredThresholdFilter. (int 20))))
+(def filtered-counts (.filter counted-rides (ClojuredThresholdFilter. pop-threshold)))
 
 ; map the grid cell id back to lon / lat
 (def popular-spots (.map filtered-counts (ClojuredGrid2Coordinates.)))
