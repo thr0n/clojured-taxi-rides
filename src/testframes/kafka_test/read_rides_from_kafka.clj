@@ -1,13 +1,8 @@
 (ns testframes.kafka-test.read-rides-from-kafka
-  (:use bridge.environment
-        bridge.datastreams
-        bridge.connectors.kafka
-        bridge.transformations
-        bridge.timing
-        bridge.windowing)
+  (:use bridge.environment bridge.datastreams bridge.connectors.kafka bridge.transformations bridge.windowing bridge.window-timing)
   (:import (com.dataartisans.flinktraining.exercises.datastream_java.utils TaxiRideSchema)
-           (com.dataartisans.flinktraining.exercises.datastream_java.connectors PopularPlacesFromKafka$TaxiRideTSExtractor)
-           (transformations ClojuredNYCFilter ClojuredGridMatcher ClojuredKeySelector ClojuredRideCounter ClojuredThresholdFilter ClojuredGrid2Coordinates)))
+           (transformations ClojuredNYCFilter ClojuredGridMatcher ClojuredKeySelector ClojuredRideCounter ClojuredThresholdFilter ClojuredGrid2Coordinates)
+           (taxi_stuff TaxiRideTSExtractor)))
 
 (def local-zookeeper-host "localhost:2181")
 (def local-kafka-broker "localhost:9092")
@@ -15,6 +10,7 @@
 (def max-event-delay 60)        ; events are out of order by max 60 seconds
 (def time-size 15)
 (def time-slide 5)
+(def watermark-interval 1000)
 (def pop-threshold (int 20))
 
 
@@ -30,7 +26,7 @@
 
 (def kafka-consumer
   (create-kafka-consumer "cleansed-rides" (TaxiRideSchema.) kafka-properties))
-(assign-timestamp-and-watermarks kafka-consumer (PopularPlacesFromKafka$TaxiRideTSExtractor.))
+(assign-timestamp-and-watermarks kafka-consumer (TaxiRideTSExtractor.))
 
 (def rides (add-source exec-env kafka-consumer))
 
@@ -57,4 +53,4 @@
 
 (print-stream popular-spots)
 
-(execute exec-env "read-rides-from-kafka")
+(execute exec-env "read-popular-places-from-kafka")
