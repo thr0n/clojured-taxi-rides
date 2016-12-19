@@ -1,10 +1,10 @@
 (ns testframes.popular-places
-  (:use bridge.environment bridge.windowing)
+  (:use bridge.environment bridge.windowing bridge.window-timing bridge.transformations bridge.datastreams)
   (:import (com.dataartisans.flinktraining.exercises.datastream_java.sources TaxiRideSource)
            (transformations ClojuredGridMatcher ClojuredNYCFilter ClojuredThresholdFilter ClojuredKeySelector ClojuredGrid2Coordinates ClojuredRideCounter)
            (org.apache.flink.streaming.api TimeCharacteristic)))
 
-(def taxi-source "..\\..\\resources\\datasets\\nycTaxiRides.gz")
+(def taxi-source "../../resources/datasets/nycTaxiRides.gz")
 (def max-event-delay 60)        ; events are out of order by max 60 seconds
 (def serving-speed-factor 600)  ; events of 10 minutes are served in 1 second
 (def time-size 15)
@@ -12,32 +12,32 @@
 (def pop-threshold (int 20))
 
 (def exec-env (stream-execution-environment))
-(set-time-characteristic exec-env (TimeCharacteristic/EventTime))
+(use-event-time exec-env)
 
 (def rides (add-source exec-env (TaxiRideSource. taxi-source max-event-delay serving-speed-factor)))
 
 ; NYC only!
-(def filtered-rides (.filter rides (ClojuredNYCFilter.)))
+(def filtered-rides (apply-filter rides (ClojuredNYCFilter.)))
 
 ; Match the grid cells and the event type
-(def matched-rides (.map filtered-rides (ClojuredGridMatcher.)))
+(def matched-rides (apply-map filtered-rides (ClojuredGridMatcher.)))
 
 ; key the stream by cellId and event type
-(def keyed-rides (.keyBy matched-rides (ClojuredKeySelector.)))
+(def keyed-rides (key-by matched-rides (ClojuredKeySelector.)))
 
 ; create a sliding window
 (def timed-rides (set-time-window keyed-rides (minutes time-size) (minutes time-slide)))
 
 ; count ride events
-(def counted-rides (.apply timed-rides (ClojuredRideCounter.)))
+(def counted-rides (apply-window timed-rides (ClojuredRideCounter.)))
+
 
 ; filter by threshold
-(def filtered-counts (.filter counted-rides (ClojuredThresholdFilter. pop-threshold)))
+(def filtered-counts (apply-filter counted-rides (ClojuredThresholdFilter. pop-threshold)))
 
 ; map the grid cell id back to lon / lat
-(def popular-spots (.map filtered-counts (ClojuredGrid2Coordinates.)))
+(def popular-spots (apply-map filtered-counts (ClojuredGrid2Coordinates.)))
 
-;(.print popular-spots)
-(.writeAsText popular-spots "file:\\\\C:\\popular-spots")
+(print-stream popular-spots)
 
-(.execute exec-env "popular-places")
+(execute exec-env "popular-places")
