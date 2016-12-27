@@ -1,5 +1,7 @@
 (ns testframes.ride-cleansing
-  (:use bridge.environment bridge.transformations bridge.datastreams)
+  (:require [bridge.environment :refer [stream-execution-environment use-event-time add-source execute]]
+            [bridge.transformations :refer [apply-filter]]
+            [bridge.datastreams :refer [print-stream]])
   (:import (com.dataartisans.flinktraining.exercises.datastream_java.sources TaxiRideSource)
            (transformations ClojuredNYCFilter)))
 
