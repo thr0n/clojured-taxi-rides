@@ -11,7 +11,8 @@
         transformations.Clojured-KeySelector
         transformations.Clojured-RideCounter
         transformations.Clojured-ThresholdFilter
-        transformations.Clojured-Grid2Coordinates]
+        transformations.Clojured-Grid2Coordinates
+        transformations.Clojured-FilterOddNumbers]
   :java-source-paths ["src/java_interfaces"]
   :resources-paths ["lib/"]
   :main testframes.popular-places)

@@ -40,7 +40,7 @@
 (def keyed-rides (key-by matched-rides (ClojuredKeySelector.)))
 
 ; create a sliding window
-(def timed-rides (set-time-window keyed-rides (minutes time-size) (minutes time-slide)))
+(def timed-rides (set-time-window keyed-rides (get-minutes time-size) (get-minutes time-slide)))
 
 ; count ride events
 (def counted-rides (apply-window timed-rides (ClojuredRideCounter.)))
