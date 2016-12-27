@@ -12,7 +12,10 @@
         transformations.Clojured-KeySelector
         transformations.Clojured-RideCounter
         transformations.Clojured-ThresholdFilter
-        transformations.Clojured-Grid2Coordinates]
+        transformations.Clojured-Grid2Coordinates
+        testframes.ride-cleansing]
   :java-source-paths ["src/java_interfaces" "src/taxi_stuff"]
   :resources-paths ["lib/"]
-  :main testframes.ride-cleansing)
+  ;:profiles {:uberjar {:aot :all}}
+  :main testframes.ride-cleansing
+  )
