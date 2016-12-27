@@ -5,14 +5,14 @@
             :url  "https://www.apache.org/licenses/LICENSE-2.0"}
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [joda-time/joda-time "2.9.6"]
-                 [com.data-artisans/flink-training-exercises "0.6"]]
+                 [com.data-artisans/flink-training-exercises "0.6"]
+                 [clojure2flink "0.1.0-SNAPSHOT"]]
   :aot [transformations.Clojured-NYCFilter
         transformations.Clojured-GridMatcher
         transformations.Clojured-KeySelector
         transformations.Clojured-RideCounter
         transformations.Clojured-ThresholdFilter
-        transformations.Clojured-Grid2Coordinates
-        transformations.Clojured-FilterOddNumbers]
-  :java-source-paths ["src/java_interfaces"]
+        transformations.Clojured-Grid2Coordinates]
+  :java-source-paths ["src/java_interfaces" "src/taxi_stuff"]
   :resources-paths ["lib/"]
-  :main testframes.popular-places)
+  :main testframes.ride-cleansing)

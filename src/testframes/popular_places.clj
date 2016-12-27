@@ -1,5 +1,5 @@
 (ns testframes.popular-places
-  (:use bridge.environment bridge.windowing bridge.window-timing bridge.transformations bridge.datastreams)
+  (:use bridge.environment bridge.windowing bridge.transformations bridge.datastreams)
   (:import (com.dataartisans.flinktraining.exercises.datastream_java.sources TaxiRideSource)
            (transformations ClojuredGridMatcher ClojuredNYCFilter ClojuredThresholdFilter ClojuredKeySelector ClojuredGrid2Coordinates ClojuredRideCounter)
            (org.apache.flink.streaming.api TimeCharacteristic)))
@@ -26,7 +26,7 @@
 (def keyed-rides (key-by matched-rides (ClojuredKeySelector.)))
 
 ; create a sliding window
-(def timed-rides (set-time-window keyed-rides (minutes time-size) (minutes time-slide)))
+(def timed-rides (set-time-window keyed-rides (get-minutes time-size) (get-minutes time-slide)))
 
 ; count ride events
 (def counted-rides (apply-window timed-rides (ClojuredRideCounter.)))

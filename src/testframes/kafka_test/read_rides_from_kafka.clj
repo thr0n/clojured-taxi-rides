@@ -1,5 +1,5 @@
 (ns testframes.kafka-test.read-rides-from-kafka
-  (:use bridge.environment bridge.datastreams bridge.connectors.kafka bridge.transformations bridge.windowing bridge.window-timing)
+  (:use bridge.environment bridge.datastreams bridge.connectors.kafka bridge.transformations bridge.windowing)
   (:import (com.dataartisans.flinktraining.exercises.datastream_java.utils TaxiRideSchema)
            (transformations ClojuredNYCFilter ClojuredGridMatcher ClojuredKeySelector ClojuredRideCounter ClojuredThresholdFilter ClojuredGrid2Coordinates)
            (taxi_stuff TaxiRideTSExtractor)))

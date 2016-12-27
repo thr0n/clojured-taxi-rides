@@ -3,9 +3,10 @@
             [bridge.transformations :refer [apply-filter]]
             [bridge.datastreams :refer [print-stream]])
   (:import (com.dataartisans.flinktraining.exercises.datastream_java.sources TaxiRideSource)
-           (transformations ClojuredNYCFilter)))
+           (transformations ClojuredNYCFilter))
+  (:gen-class :main true))
 
-(def taxi-source "../../resources/datasets/nycTaxiRides.gz")
+(def taxi-source "/home/hendrik/dev/github/clojured-taxi-rides/resources/datasets/nycTaxiRides.gz")
 (def max-event-delay 60)                                    ; events are out of order by max 60 seconds
 (def serving-speed-factor 600)                              ; events of 10 minutes are served in 1 second
 
@@ -16,5 +17,7 @@
 
 (def filtered-rides (apply-filter rides (ClojuredNYCFilter.)))
 
-(print-stream filtered-rides)
-(execute exec-env "ride-cleansing")
+
+(defn -main []
+  (print-stream filtered-rides)
+  (execute exec-env "ride-cleansing"))
