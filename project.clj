@@ -13,7 +13,9 @@
         transformations.Clojured-RideCounter
         transformations.Clojured-ThresholdFilter
         transformations.Clojured-Grid2Coordinates
-        testframes.ride-cleansing]
+        testframes.ride-cleansing
+        testframes.popular-places
+        testframes.kafka-test.write-rides-to-kafka]
   :java-source-paths ["src/java_interfaces" "src/taxi_stuff"]
   :resources-paths ["lib/"]
   ;:profiles {:uberjar {:aot :all}}

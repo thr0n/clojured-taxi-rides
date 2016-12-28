@@ -2,11 +2,15 @@
   (:use bridge.environment bridge.windowing bridge.transformations bridge.datastreams)
   (:import (com.dataartisans.flinktraining.exercises.datastream_java.sources TaxiRideSource)
            (transformations ClojuredGridMatcher ClojuredNYCFilter ClojuredThresholdFilter ClojuredKeySelector ClojuredGrid2Coordinates ClojuredRideCounter)
-           (org.apache.flink.streaming.api TimeCharacteristic)))
+           (org.apache.flink.streaming.api TimeCharacteristic))
+  (:gen-class))
 
-(def taxi-source "../../resources/datasets/nycTaxiRides.gz")
-(def max-event-delay 60)        ; events are out of order by max 60 seconds
-(def serving-speed-factor 600)  ; events of 10 minutes are served in 1 second
+; linux
+(def taxi-source "../../../resources/datasets/nycTaxiRides.gz")
+; windows
+(def taxi-source "C:\\dev\\github\\clojured-taxi-rides\\resources\\datasets\\nycTaxiRides.gz")
+(def max-event-delay 60)                                    ; events are out of order by max 60 seconds
+(def serving-speed-factor 600)                              ; events of 10 minutes are served in 1 second
 (def time-size 15)
 (def time-slide 5)
 (def pop-threshold (int 20))
@@ -31,13 +35,13 @@
 ; count ride events
 (def counted-rides (apply-window timed-rides (ClojuredRideCounter.)))
 
-
 ; filter by threshold
 (def filtered-counts (apply-filter counted-rides (ClojuredThresholdFilter. pop-threshold)))
 
 ; map the grid cell id back to lon / lat
 (def popular-spots (apply-map filtered-counts (ClojuredGrid2Coordinates.)))
 
-(print-stream popular-spots)
-
-(execute exec-env "popular-places")
+(defn -main []
+  ;(print-stream popular-spots)
+  (write-as-text popular-spots "file:\\\\out")
+  (execute exec-env "popular-places"))

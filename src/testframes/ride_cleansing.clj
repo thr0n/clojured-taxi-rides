@@ -22,7 +22,5 @@
 (def filtered-rides (apply-filter rides (ClojuredNYCFilter.)))
 
 (defn -main [& args]
-  (print-stream filtered-rides)
-  ;(write-as-text filtered-rides "file:\\\\C:\\output")
+  ;(print-stream filtered-rides)
   (execute exec-env "ride-cleansing"))
-

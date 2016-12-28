@@ -2,7 +2,8 @@
   (:use bridge.environment bridge.datastreams bridge.connectors.kafka bridge.transformations bridge.windowing)
   (:import (com.dataartisans.flinktraining.exercises.datastream_java.utils TaxiRideSchema)
            (transformations ClojuredNYCFilter ClojuredGridMatcher ClojuredKeySelector ClojuredRideCounter ClojuredThresholdFilter ClojuredGrid2Coordinates)
-           (taxi_stuff TaxiRideTSExtractor)))
+           (taxi_stuff TaxiRideTSExtractor))
+  (:gen-class))
 
 (def local-zookeeper-host "localhost:2181")
 (def local-kafka-broker "localhost:9092")
@@ -51,6 +52,6 @@
 ; map the grid cell id back to lon / lat
 (def popular-spots (apply-map filtered-counts (ClojuredGrid2Coordinates.)))
 
+(defn -main []
 (print-stream popular-spots)
-
-(execute exec-env "read-popular-places-from-kafka")
+(execute exec-env "read-popular-places-from-kafka"))
