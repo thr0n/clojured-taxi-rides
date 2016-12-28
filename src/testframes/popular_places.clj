@@ -6,7 +6,7 @@
   (:gen-class))
 
 ; linux
-(def taxi-source "../../../resources/datasets/nycTaxiRides.gz")
+(def taxi-source "/home/hendrik/dev/github/clojured-taxi-rides/resources/datasets/nycTaxiRides.gz")
 ; windows
 (def taxi-source "C:\\dev\\github\\clojured-taxi-rides\\resources\\datasets\\nycTaxiRides.gz")
 (def max-event-delay 60)                                    ; events are out of order by max 60 seconds

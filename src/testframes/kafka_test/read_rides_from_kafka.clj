@@ -8,7 +8,7 @@
 (def local-zookeeper-host "localhost:2181")
 (def local-kafka-broker "localhost:9092")
 (def ride-speed-group "RIDE_SPEED_GROUP")
-(def max-event-delay 60)        ; events are out of order by max 60 seconds
+(def max-event-delay 60)                                    ; events are out of order by max 60 seconds
 (def time-size 15)
 (def time-slide 5)
 (def watermark-interval 1000)
@@ -53,5 +53,5 @@
 (def popular-spots (apply-map filtered-counts (ClojuredGrid2Coordinates.)))
 
 (defn -main []
-(print-stream popular-spots)
-(execute exec-env "read-popular-places-from-kafka"))
+  (print-stream popular-spots)
+  (execute exec-env "read-popular-places-from-kafka"))
