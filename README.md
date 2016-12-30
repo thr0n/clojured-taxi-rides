@@ -6,7 +6,10 @@ Clojure bridge to Apache Flink, called
 It is heavily inspired by the Apache Flink training available
 at http://dataartisans.github.io/flink-training/
 
+## Introduction
+
 You can make use of four different test applications:
+
 1) `ride-cleansing.clj` - Reads all the taxi rides from the input file
 and drops every ride that didn't start and end in New York City.
 
@@ -24,6 +27,8 @@ If you want to execute one of the kafka examples please make sure
 that you're running a properly configured Kafka cluster.
 
 ## Supported software versions
+
+clojured-taxi-rides uses the following software environment for development and testing:
 
 - Clojure: 1.8.0
 - Java: 1.8.0_111-b14
