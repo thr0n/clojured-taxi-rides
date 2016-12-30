@@ -23,7 +23,7 @@ writes the retained rides into a Kafka cluster.
 4) `read-rides-from-kafka.clj` - Reads the filtered rides from a Kafka cluster
 and does the same analysis as the second application.
 
-If you want to execute one of the kafka examples please make sure
+If you want to execute one of the Kafka examples please make sure
 that you're running a properly configured Kafka cluster.
 
 ## Supported software versions
@@ -38,28 +38,27 @@ clojured-taxi-rides uses the following software environment for development and 
 
 1) Download the Taxi Data Stream from
 http://dataartisans.github.io/flink-training/trainingData/nycTaxiRides.gz
+
 2) Create the following directory (if not already exist):
 <PROJECT_ROOT>/resources/datasets/
+
 3) Copy (don't unzip!) the downloaded `nycTaxiRides.gz` file into this directory
 
 ## Usage
 
-FIXME: explanation
+`TODO:` How to execute a specific testframe! -> e.g. local/cluster execution
 	
 	$ lein compile
 	$ lein run
 
     $ java -jar clojured-taxi-rides-0.1.0-standalone.jar [args]
 
-## Options
-
-FIXME: listing of options this app accepts.
 
 ## Examples
 
-...
+`TODO:` Provide some sample output
 
-### Know issues
+### Known issues
 
 - The path to the `nycTaxiRides.gz` file has to be specified
 in the source code directly. I will try to provide a way
