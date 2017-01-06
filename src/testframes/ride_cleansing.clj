@@ -7,9 +7,9 @@
   (:gen-class :main))
 
 ; linux
-(def taxi-source "/home/hendrik/dev/github/clojured-taxi-rides/resources/datasets/nycTaxiRides.gz")
+;(def taxi-source "/home/hendrik/dev/github/clojured-taxi-rides/resources/datasets/nycTaxiRides.gz")
 ; windows
-;(def taxi-source "C:\\dev\\github\\clojured-taxi-rides\\resources\\datasets\\nycTaxiRides.gz")
+(def taxi-source "C:\\dev\\github\\clojured-taxi-rides\\resources\\datasets\\nycTaxiRides.gz")
 
 (def max-event-delay 60)                                    ; events are out of order by max 60 seconds
 (def serving-speed-factor 600)                              ; events of 10 minutes are served in 1 second
@@ -22,5 +22,6 @@
 (def filtered-rides (apply-filter rides (ClojuredNYCFilter.)))
 
 (defn -main [& args]
-  (write-as-text filtered-rides "file:///home/hendrik//benchmarking//test_clojure.txt")
+  ;(write-as-text filtered-rides "file:///home/hendrik//benchmarking//test_clojure.txt")
+  (write-as-text filtered-rides "file:\\\\C:\\Users\\ht\\rides_clojure.txt")
   (execute exec-env "ride-cleansing"))

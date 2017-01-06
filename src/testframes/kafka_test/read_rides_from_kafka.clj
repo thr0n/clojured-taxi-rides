@@ -26,13 +26,10 @@
                       ["auto.offset.reset" "earliest"]]))
 
 (def kafka-consumer
-  (create-kafka-consumer "java-rides" (TaxiRideSchema.) kafka-properties))
+  (create-kafka-consumer "clojure-rides" (TaxiRideSchema.) kafka-properties))
 (assign-timestamp-and-watermarks kafka-consumer (TaxiRideTSExtractor.))
 
 (def rides (add-source exec-env kafka-consumer))
-
-; NYC only!
-;(def filtered-rides (apply-filter rides (ClojuredNYCFilter.))) ; not needed!
 
 ; Match the grid cells and the event type
 (def matched-rides (apply-map rides (ClojuredGridMatcher.)))
@@ -54,5 +51,5 @@
 
 (defn -main []
   ;(print-stream popular-spots)
-  (write-as-text popular-spots "file:///home//hendrik//kafka_clojure.txt")
+  (write-as-text popular-spots "file:\\\\C:\\Users\\ht\\kafka_clojure.txt")
   (execute exec-env "read-popular-places-from-kafka"))

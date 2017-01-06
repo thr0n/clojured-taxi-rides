@@ -6,9 +6,9 @@
   (:gen-class))
 
 ; linux
-(def taxi-source "/home/hendrik/dev/github/clojured-taxi-rides/resources/datasets/nycTaxiRides.gz")
+;(def taxi-source "/home/hendrik/dev/github/clojured-taxi-rides/resources/datasets/nycTaxiRides.gz")
 ; windows
-;(def taxi-source "C:\\dev\\github\\clojured-taxi-rides\\resources\\datasets\\nycTaxiRides.gz")
+(def taxi-source "C:\\dev\\github\\clojured-taxi-rides\\resources\\datasets\\nycTaxiRides.gz")
 (def max-event-delay 60)                                    ; events are out of order by max 60 seconds
 (def serving-speed-factor 600)                              ; events of 10 minutes are served in 1 second
 (def time-size 15)
@@ -43,5 +43,6 @@
 
 (defn -main []
   ;(print-stream popular-spots)
-  (write-as-text popular-spots "file:///home//hendrik//pp_clojure.txt")
+  ;(write-as-text popular-spots "file:///home//hendrik//pp_clojure.txt")
+  (write-as-text popular-spots "file:\\\\C:\\Users\\ht\\rides_clojure.txt")
   (execute exec-env "popular-places"))
