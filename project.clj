@@ -18,7 +18,7 @@
         testframes.kafka-test.write-rides-to-kafka
         testframes.kafka-test.read-rides-from-kafka
         ]
-  :java-source-paths ["src/java_interfaces" "src/taxi_stuff"]
+  :java-source-paths ["src/java_interfaces" "src/taxi_stuff" "src/references"]
   :resources-paths ["lib/"]
   ;:profiles {:uberjar {:aot :all}}
   :main testframes.ride-cleansing

@@ -22,5 +22,5 @@
 (def filtered-rides (apply-filter rides (ClojuredNYCFilter.)))
 
 (defn -main [& args]
-  ;(print-stream filtered-rides)
+  (write-as-text filtered-rides "file:///home/hendrik//benchmarking//test_clojure.txt")
   (execute exec-env "ride-cleansing"))

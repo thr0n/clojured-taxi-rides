@@ -13,7 +13,7 @@
 (def max-event-delay 60)                                    ; events are out of order by max 60 seconds
 (def serving-speed-factor 600)                              ; events of 10 minutes are served in 1 second
 (def local-kafka-broker "localhost:9092")
-(def cleansed-rides-topic "cleansed-rides")
+(def cleansed-rides-topic "clojure-rides")
 
 (def exec-env (stream-execution-environment))
 (use-event-time exec-env)
