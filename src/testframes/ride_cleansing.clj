@@ -10,18 +10,14 @@
 ;(def taxi-source "/home/hendrik/dev/github/clojured-taxi-rides/resources/datasets/nycTaxiRides.gz")
 ; windows
 (def taxi-source "C:\\dev\\github\\clojured-taxi-rides\\resources\\datasets\\nycTaxiRides.gz")
-
 (def max-event-delay 60)                                    ; events are out of order by max 60 seconds
 (def serving-speed-factor 600)                              ; events of 10 minutes are served in 1 second
 
-(def exec-env (stream-execution-environment))
-(use-event-time exec-env)
-
-(def rides (add-source exec-env (TaxiRideSource. taxi-source max-event-delay serving-speed-factor)))
-
-(def filtered-rides (apply-filter rides (ClojuredNYCFilter.)))
-
 (defn -main [& args]
-  ;(write-as-text filtered-rides "file:///home/hendrik//benchmarking//test_clojure.txt")
-  (write-as-text filtered-rides "file:\\\\C:\\Users\\ht\\rides_clojure.txt")
-  (execute exec-env "ride-cleansing"))
+  (let [exec-env (stream-execution-environment)]
+    (-> (use-event-time exec-env)                           ; threading macro
+        (add-source (TaxiRideSource. taxi-source max-event-delay serving-speed-factor))
+        (apply-filter (ClojuredNYCFilter.))
+        (print-stream)
+        )
+    (execute exec-env "ride-cleansing-v2")))

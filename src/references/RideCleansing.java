@@ -39,7 +39,7 @@ public class RideCleansing {
                 .filter(new NYCFilter());
 
         // print the filtered stream
-        filteredRides.print();
+        //filteredRides.print();
         filteredRides.writeAsText("file:\\\\C:\\Users\\ht\\rides_java.txt");
 
         // run the cleansing pipeline

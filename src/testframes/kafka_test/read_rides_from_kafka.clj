@@ -1,55 +1,37 @@
 (ns testframes.kafka-test.read-rides-from-kafka
   (:use bridge.environment bridge.datastreams bridge.connectors.kafka bridge.transformations bridge.windowing)
   (:import (com.dataartisans.flinktraining.exercises.datastream_java.utils TaxiRideSchema)
-           (transformations ClojuredNYCFilter ClojuredGridMatcher ClojuredKeySelector ClojuredRideCounter ClojuredThresholdFilter ClojuredGrid2Coordinates)
+           (transformations ClojuredGridMatcher ClojuredKeySelector ClojuredRideCounter
+                            ClojuredThresholdFilter ClojuredGrid2Coordinates)
            (taxi_stuff TaxiRideTSExtractor))
   (:gen-class))
 
 (def local-zookeeper-host "localhost:2181")
 (def local-kafka-broker "localhost:9092")
 (def ride-speed-group "RIDE_SPEED_GROUP")
-(def max-event-delay 60)                                    ; events are out of order by max 60 seconds
 (def time-size 15)
 (def time-slide 5)
 (def watermark-interval 1000)
 (def pop-threshold (int 20))
-
-
-(def exec-env (stream-execution-environment))
-(use-event-time exec-env)
-(set-auto-watermark-interval exec-env watermark-interval)
-
 (def kafka-properties
   (create-properties [["zookeeper.connect" local-zookeeper-host]
                       ["bootstrap.servers" local-kafka-broker]
                       ["group.id" ride-speed-group]
                       ["auto.offset.reset" "earliest"]]))
+(def kafka-topic "clojure-rides")
 
-(def kafka-consumer
-  (create-kafka-consumer "clojure-rides" (TaxiRideSchema.) kafka-properties))
-(assign-timestamp-and-watermarks kafka-consumer (TaxiRideTSExtractor.))
-
-(def rides (add-source exec-env kafka-consumer))
-
-; Match the grid cells and the event type
-(def matched-rides (apply-map rides (ClojuredGridMatcher.)))
-
-; key the stream by cellId and event type
-(def keyed-rides (key-by matched-rides (ClojuredKeySelector.)))
-
-; create a sliding window
-(def timed-rides (set-time-window keyed-rides (get-minutes time-size) (get-minutes time-slide)))
-
-; count ride events
-(def counted-rides (apply-window timed-rides (ClojuredRideCounter.)))
-
-; filter by threshold
-(def filtered-counts (apply-filter counted-rides (ClojuredThresholdFilter. pop-threshold)))
-
-; map the grid cell id back to lon / lat
-(def popular-spots (apply-map filtered-counts (ClojuredGrid2Coordinates.)))
-
-(defn -main []
-  ;(print-stream popular-spots)
-  (write-as-text popular-spots "file:\\\\C:\\Users\\ht\\kafka_clojure.txt")
-  (execute exec-env "read-popular-places-from-kafka"))
+(defn -main [& args]
+  (let [exec-env (stream-execution-environment)
+        kafka-consumer (create-kafka-consumer kafka-topic (TaxiRideSchema.) kafka-properties)
+        timestamped-consumer (assign-timestamp-and-watermarks kafka-consumer (TaxiRideTSExtractor.))]
+    (-> (use-event-time exec-env)                           ; threading macro
+        (set-auto-watermark-interval watermark-interval)
+        (add-source timestamped-consumer)
+        (apply-map (ClojuredGridMatcher.))
+        (key-by (ClojuredKeySelector.))
+        (set-time-window (get-minutes time-size) (get-minutes time-slide))
+        (apply-window (ClojuredRideCounter.))
+        (apply-filter (ClojuredThresholdFilter. pop-threshold))
+        (apply-map (ClojuredGrid2Coordinates.))
+        (print-stream))
+    (execute exec-env "popular-places-from-kafka-v2")))
