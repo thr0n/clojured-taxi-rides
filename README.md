@@ -18,7 +18,7 @@ But furthermore it identifies popular places by counting the number of taxi
 rides that started and ended in the same area within a specified time window.
 
 3) `write-rides-to-kafka.clj` - Does the same filtering as the first application
-writes the retained rides into a Kafka cluster.
+and writes the retained rides into a Kafka cluster.
 
 4) `read-rides-from-kafka.clj` - Reads the filtered rides from a Kafka cluster
 and does the same analysis as the second application.
@@ -46,23 +46,29 @@ http://dataartisans.github.io/flink-training/trainingData/nycTaxiRides.gz
 
 ## Usage
 
-`TODO:` How to execute a specific testframe! -> e.g. local/cluster execution
-	
+### Execute locally
+
+
 	$ lein compile
 	$ lein run
 
     $ java -jar clojured-taxi-rides-0.1.0-standalone.jar [args]
 
+### Execute in Flink cluster
 
-## Examples
+	# create an uberjar file
+	$ lein uberjar
 
-`TODO:` Provide some sample output
+    # start the flink cluster
+	$ <Flink_Directory>/bin/start-local.sh
 
-### Known issues
+	# start the application
+	$ <Flink_Directory>/bin/flink run <PROJECT_ROOT>/target/clojured-taxi-rides-0.2.0-SNAPSHOT.jar testframes.application
+
+## Known issues
 
 - The path to the `nycTaxiRides.gz` file has to be specified
-in the source code directly. I will try to provide a way
-to pass the file path via command-line arguments.
+in the source code directly.
 
 - If you want to execute the Kafka examples please make sure your Kafka cluster
 is using the default configuration.
